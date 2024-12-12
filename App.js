@@ -6,14 +6,22 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [goals, setGoals] = useState([]);
+  const deleteGoal = (id) =>
+    setGoals((currentGoals) => currentGoals.filter((goal) => goal.id !== id));
   return (
     <View style={styles.appContainer}>
       <GoalInput setState={setGoals} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
-          renderItem={(data) => <GoalItem text={data.item.text} />}
-          keyExtractor={(item, index) => item.id + index}
+          renderItem={(data) => (
+            <GoalItem
+              text={data.item.text}
+              onDeleteItem={deleteGoal}
+              id={data.item.id}
+            />
+          )}
+          keyExtractor={(item) => item.id}
         />
       </View>
     </View>
